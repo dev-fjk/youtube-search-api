@@ -25,5 +25,4 @@ public class ApplicationConfig {
     public Clock clock() {
         return Clock.system(ZoneId.of(JP_TIME_ZONE));
     }
-
 }

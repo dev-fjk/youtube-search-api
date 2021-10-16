@@ -11,6 +11,13 @@ logging:
   level:
     web: debug
 
+# youtube
+extension:
+  youtube:
+    # みこちのチャンネルIDを記載
+    channelId: UC-hM6YJuNYVAmUWxeIr9FeA
+    key: ${youtubeApiKey}
+
 ---
 # -Dspring.profiles.activeを指定しなかった場合に実行される application.ymlの指定
 spring:

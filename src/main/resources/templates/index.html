@@ -9,6 +9,8 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- thymeleafでのCSS適用のため thタグ -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -24,9 +26,29 @@
 </div>
 
 <script>
-    // TODO
-    //  1. Ajaxで RestControllerへ Postでリクエスト飛ばす
-    //  2. Jsonの配列が帰ってくるので取得して htmlにリストで表示
+    // 画面読み込み時に動作
+    $(document).ready(function () {
+        console.log('動画一覧取得を開始します。');
+
+        // RestControllerへリクエストを送信する
+        $.ajax({
+            // 通信設定
+            url: "http://localhost:8080/youtube/v1/search/miko/movies", // みこちの最新動画一覧取得
+            type: "POST", // post
+            data: "", // 送信するデータ
+            dataType: "json", // Responseタイプ (xml/html/script/json/jsonp/text)
+            timespan: 3000 // タイムアウト値
+
+        }).done((result) => {
+            console.log('データ取得に成功しました。');
+            console.log(result);
+
+        }).fail(() => {
+            console.log('通信に失敗しました。');
+            alert('通信に失敗しました。');
+        });
+
+    });
 </script>
 </body>
 </html>

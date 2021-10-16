@@ -38,10 +38,7 @@ public class YoutubeController {
         } catch (Exception exception) {
             // エラーレスポンスの作成
             log.error("Youtubeへのリクエスト送信に失敗しました。", exception);
-            Map<String, Object> errorDetails = new HashMap<>();
-            errorDetails.put("error", "Youtube MikoChannel Connect Error");
-            errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.OK);
+            return this.youtubeErrorResponse("Miko Channel Get Movies Failed");
         }
     }
 
@@ -54,10 +51,7 @@ public class YoutubeController {
         } catch (Exception exception) {
             // エラーレスポンスの作成
             log.error("Youtubeへのリクエスト送信に失敗しました。", exception);
-            Map<String, Object> errorDetails = new HashMap<>();
-            errorDetails.put("error", "Youtube SuiseiChannel Connect Error");
-            errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.OK);
+            return this.youtubeErrorResponse("Suisei Channel Get Movies Failed");
         }
     }
 
@@ -70,10 +64,7 @@ public class YoutubeController {
         } catch (Exception exception) {
             // エラーレスポンスの作成
             log.error("Youtubeへのリクエスト送信に失敗しました。", exception);
-            Map<String, Object> errorDetails = new HashMap<>();
-            errorDetails.put("error", "Youtube SuiseiChannel Connect Error");
-            errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.OK);
+            return this.youtubeErrorResponse("Yashikizu Channel Get Movies Failed");
         }
     }
 
@@ -84,6 +75,20 @@ public class YoutubeController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return httpHeaders;
+    }
+
+    /**
+     * エラーレスポンスの作成
+     *
+     * @param errorMsg : エラーメッセージ
+     * @return エラーレスポンス
+     */
+    private ResponseEntity<?> youtubeErrorResponse(String errorMsg) {
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("error", "Youtube Search Result Error");
+        errorDetails.put("message", errorMsg);
+        errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.BAD_REQUEST);
     }
 
     /**

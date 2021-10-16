@@ -10,18 +10,19 @@ spring:
 logging:
   level:
     web: debug
+    com.google.api.services.youtube: debug
 
 # youtube
 extension:
   youtube:
+    key: ${youtubeApiKey} # Youtube Data Api v3 のAppキーを環境変数に設定したものを取得する
+    # youtube channel  Ids
     # みこちのチャンネルIDを記載
     mikoChId: UC-hM6YJuNYVAmUWxeIr9FeA
     # すいせい
     suiseiChId: UC5CwaMl1eIgY8h02uZw7u8A
     # やしきず
-    yashikizuChId : UCKMYISTJAQ8xTplUPHiABlA
-    key: ${youtubeApiKey}
-
+    yashikizuChId: UCKMYISTJAQ8xTplUPHiABlA
 ---
 # -Dspring.profiles.activeを指定しなかった場合に実行される application.ymlの指定
 spring:

@@ -1,4 +1,4 @@
-package com.maven.example.demo.application
+package com.api.youtube.sample.application
 
 import spock.lang.Specification
 import spock.lang.Unroll

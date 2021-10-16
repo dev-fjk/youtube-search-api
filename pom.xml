@@ -11,21 +11,20 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <!-- TODO 作成したリポジトリ名などをベースに修正すること -->
-    <groupId>com.maven.example.demo</groupId>
-    <artifactId>spring-maven-template</artifactId>
+    <groupId>com.api.youtube.sample</groupId>
+    <artifactId>youtube-search-api</artifactId>
     <version>1.0.0</version>
-    <name>spring-maven-template</name>
-    <description>template project when use maven</description>
+    <name>youtube-search-api</name>
+    <description>youtube data api sample</description>
 
     <properties>
-        <!-- TODO 後々 java 17までバージョン上げる (次版のLTSバージョンのため。) -->
         <java.version>11</java.version>
         <spock.version>2.0-groovy-3.0</spock.version>
         <test.include.groovy>**/*.groovy</test.include.groovy>
     </properties>
 
     <dependencies>
+
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -120,6 +119,13 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
+        </dependency>
+
+        <!-- Youtube Data Api -->
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-youtube</artifactId>
+            <version>v3-rev222-1.25.0</version>
         </dependency>
 
         <!-- test -->
@@ -232,12 +238,6 @@
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit-platform</artifactId>
-                        <version>3.0.0-M5</version>
-                    </dependency>
-                    <!-- junit4向け 並列動作設定 spock2.0と junit4を併用しない場合は不要 -->
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
                         <version>3.0.0-M5</version>
                     </dependency>
                 </dependencies>

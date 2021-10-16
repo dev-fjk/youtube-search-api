@@ -1,4 +1,4 @@
-package com.maven.example.demo.config;
+package com.api.youtube.sample.config;
 
 import java.time.Clock;
 import java.time.ZoneId;

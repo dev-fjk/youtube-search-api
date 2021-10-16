@@ -1,4 +1,4 @@
-package com.maven.example.demo.application;
+package com.api.youtube.sample.application;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

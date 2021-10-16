@@ -1,7 +1,7 @@
 ---
 spring:
   application:
-    name: spring-maven-template
+    name: youtube-search-api
   messages:
     encoding: UTF-8
   jackson:

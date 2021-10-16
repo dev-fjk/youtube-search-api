@@ -15,7 +15,11 @@ logging:
 extension:
   youtube:
     # みこちのチャンネルIDを記載
-    channelId: UC-hM6YJuNYVAmUWxeIr9FeA
+    mikoChId: UC-hM6YJuNYVAmUWxeIr9FeA
+    # すいせい
+    suiseiChId: UC5CwaMl1eIgY8h02uZw7u8A
+    # やしきず
+    yashikizuChId : UCKMYISTJAQ8xTplUPHiABlA
     key: ${youtubeApiKey}
 
 ---

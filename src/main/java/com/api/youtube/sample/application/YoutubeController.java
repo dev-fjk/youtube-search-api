@@ -15,52 +15,95 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Youtubeから動画一覧を取得して Json形式で返却するコントローラー
+ * TODO 出来れば レスポンスで返したJsonをViewに渡して画面表示させたい
+ */
 @Slf4j
 @RestController
-@RequestMapping(value = "youtube/api/v1/")
+@RequestMapping(value = "youtube/v1/search/")
 @RequiredArgsConstructor
 public class YoutubeController {
 
     private final YouTube youtubeDataApi;
     private final YoutubeConfig youtubeConfig;
 
-    @GetMapping(value = "get/movies")
-    public ResponseEntity<?> getMovies() {
-        log.info("Youtube Controller Get Http Request");
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    @GetMapping(value = "miko/movies")
+    public ResponseEntity<?> getMikoMovies() {
 
         try {
-            // TODO 出来れば レスポンスで返したJsonをViewに渡して画面表示させたい
             // 検索の実行 動画一覧をJsonで取得できる
-            SearchListResponse response = this.createSearchApi().execute();
-            return new ResponseEntity<>(response.toPrettyString(), httpHeaders, HttpStatus.OK);
+            SearchListResponse response = this.createSearchApi(youtubeConfig.getMikoChId()).execute();
+            return new ResponseEntity<>(response.toPrettyString(), this.createHeader(), HttpStatus.OK);
         } catch (Exception exception) {
             // エラーレスポンスの作成
             log.error("Youtubeへのリクエスト送信に失敗しました。", exception);
             Map<String, Object> errorDetails = new HashMap<>();
-            errorDetails.put("error", "Youtube Connect Error");
+            errorDetails.put("error", "Youtube MikoChannel Connect Error");
             errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(errorDetails, httpHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.OK);
         }
+    }
+
+    @GetMapping(value = "suisei/movies")
+    public ResponseEntity<?> getSuiseiMovies() {
+
+        try {
+            SearchListResponse response = this.createSearchApi(youtubeConfig.getSuiseiChId()).execute();
+            return new ResponseEntity<>(response.toPrettyString(), this.createHeader(), HttpStatus.OK);
+        } catch (Exception exception) {
+            // エラーレスポンスの作成
+            log.error("Youtubeへのリクエスト送信に失敗しました。", exception);
+            Map<String, Object> errorDetails = new HashMap<>();
+            errorDetails.put("error", "Youtube SuiseiChannel Connect Error");
+            errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.OK);
+        }
+    }
+
+    @GetMapping(value = "yashikizu/movies")
+    public ResponseEntity<?> getYashikizuMovies() {
+
+        try {
+            SearchListResponse response = this.createSearchApi(youtubeConfig.getYashikizuChId()).execute();
+            return new ResponseEntity<>(response.toPrettyString(), this.createHeader(), HttpStatus.OK);
+        } catch (Exception exception) {
+            // エラーレスポンスの作成
+            log.error("Youtubeへのリクエスト送信に失敗しました。", exception);
+            Map<String, Object> errorDetails = new HashMap<>();
+            errorDetails.put("error", "Youtube SuiseiChannel Connect Error");
+            errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(errorDetails, this.createHeader(), HttpStatus.OK);
+        }
+    }
+
+    /**
+     * ヘッダの作成
+     */
+    private HttpHeaders createHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 
     /**
      * Youtubeの検索条件の設定
      *
+     * @param channelId : 検索先のチャンネルID
      * @return : 検索用クラス
      * @throws Exception : 設定時例外
      */
-    private YouTube.Search.List createSearchApi() throws Exception {
+    private YouTube.Search.List createSearchApi(String channelId) throws Exception {
 
+        // 検索対象のチャンネルや IDの指定
         YouTube.Search.List search = youtubeDataApi.search().list("id,snippet");
-        search.setChannelId(youtubeConfig.getChannelId());
+        search.setChannelId(channelId);
         search.setKey(youtubeConfig.getKey());
-        search.setQ("Minecraft"); // みこちのマイクラ動画でフィルタする
-        search.setType("video");  // 検索対象のTypeを設定。他にchannelとplaylistが設定できる
-        search.setMaxResults(10L); // 取得するヒット数の最大値を設定
+        search.setQ("Minecraft"); // 検索条件 マインクラフトの動画でフィルタ
+        search.setType("video");  // 検索対象のTypeを設定。他にchannelとplaylistが設定できる videoで動画
+        search.setMaxResults(20L); // 取得するヒット数の最大値を設定
         search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
+        search.setOrder("date"); // 最新の投稿から優先して取得できるように設定
         return search;
     }
 }
